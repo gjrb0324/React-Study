@@ -1,0 +1,60 @@
+진도 : react 자습서: ~게임 완성하기
+
+
+<새롭게 알게 된 점>
+1. var, let, const 차이점
+
+var - ES6이전 변수 선언 방식, 같은 변수명을 다시 var  변수명 = value 재정의 해도 에러가 안 생김
+(다른 언어와의 다른점)
+
+Ex) var apple = 1;
+    var apple = 2;
+/* 오류 x */
+
+let, const: ES6이후 나온 변수 선언 방식, 다른 언어의 int,float .... 와 비슷하게 한번 선언된 변수는 이들과 함께 재정의 불가능
+
+Ex) let a = 1;
+    let a = 2;
+/* 오류!! */
+
+let VS const: 다른 언어 처럼 let으로 선언된 변수는 여러번 값 변경 가능하지만 const는 변경 불가능
+
+*호이스팅 : 자바스크립트는 var, let, const, function, function*, class 등등 모든 선언을 맨 처음으로 옮긴 것 처럼 동작하는데,
+var, function은 호이스팅 될때, 선언문 이전에 참조될 때 에러가 생기지 않지만, const, let은 참조에러(Referrence Error) 발생
+
+변수는 선언 > 초기화 > 할당 세 단계를 거치는데 var은 선언과 초기화 단계를 한번에 거치는데 반하여 let,const는 그렇지 못하기 때문
+
+	console.log(foo); // undefined
+	var foo;
+
+	console.log(bar); // Error: Uncaught ReferenceError: bar is not defined
+	let bar;
+//https://velog.io/@bathingape/JavaScript-var-let-const-차이점   참조
+
+
+2. 화살표 함수: 
+
+function(a) { return a + 100;} 이란 함수가 있을 때, function, 괄호, 중괄호, return 을 제거하고 화살표를 이용하여 작성
+(중괄호는 살려도 ㄱㅊ)
+a => a+ 100;
+
+화살표 함수는 메소드 함수가 아닌(클래스, 구조체등의 member function이 아닌) 경우에 사용하기 좋음. 화살표 함수는 this 사용시 this를
+Window 객체로 판단하기 때문
+
+
+3. Props , State: state는 유동적으로 값 조정 가능 (this.setState -> 자기 자신의 state 밖에 수정 불가능)
+
+State 사용시 명심! : 여러개의 자식으로부터 데이터를 모으거나 두 개의 자식 컴포넌트들이 서로 통신하게 하기 위해서는 부모 컴포넌트에 공유 State
+를 정의해야함! 부모 컴포넌트는 props를 사용하여 자식들에게 state 다시 전달 가능
+
+4. 함수형 컴포넌트:
+함수형 컴포넌트는 onClick 설정시 클래스형 컴포넌트에서의 onClick={() => this.props.onClick()}를 onClick={props.onClick}으로
+함수와 화살표 모두 없이 작성! 
+
+(만약 onClick={this.props.onClick()} 으로 적게 되면 Maximum update depth 오류! => 이유: 함수명()은 바로 호출의 의미가 있음
+따라서 저렇게 되면 onClick을 누르기도 이전에 리액트 앱이 실행되자마자 함수 호출 -> 렌더링 -> 함수 호출 -> 렌더링....의 무한 루프)
+* 매개변수가 필요한 경우! : 화살표 함수 이용 ex) onClick={() => this.props.onClick(a)}
+
+5. if문 조건문 안의 변수 까먹어서 다시 정리
+if문에서 변수값이 false, "",NaN,undefined, null, 0 이면 false 취급
+나머지는 true 취급: if(value){...}
